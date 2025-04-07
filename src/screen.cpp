@@ -140,7 +140,7 @@ void draw_coordinateSystem(double x1, double x2, double y1, double y2){
     }
 }
 
-void draw_topBar_fktVis(char* name, uint8_t* logo){
+void draw_topBar_fktVis(char* name, const uint8_t* logo){
     // clear the top Bar
     screen.fillRect(0,0, 128, 16, BLACK);
     // draw Abra
@@ -148,7 +148,7 @@ void draw_topBar_fktVis(char* name, uint8_t* logo){
     // write name of the function
     draw_text(20,4,name);
     // draw zoom mode logo
-    screen.drawBitmap(0, 48, logo, 16, 16, WHITE);
+    screen.drawBitmap(112, 0, logo, 15, 15, WHITE);
 }
 
 

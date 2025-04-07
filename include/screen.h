@@ -20,7 +20,7 @@ void draw_menu(menuEntry* EntryList, int length, int curser_position, int list_p
 
 void draw_A0(int, int, int);
 
-void draw_topBar_fktVis(char* name, uint8_t* logo);
+void draw_topBar_fktVis(char* name, const uint8_t* logo);
 void draw_coordinateSystem(double x1, double x2, double y1, double y2);
 void draw_function(double x1, double x2, double y1, double y2, int grid_step, double (*fkt)(double));
 

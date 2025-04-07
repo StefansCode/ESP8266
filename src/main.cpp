@@ -30,7 +30,7 @@ void setup() {
 int mode=0;
 void loop() {
   
-  
+  //while(1){delay(10);}
   //delay(10);
   
   if(mode==0){

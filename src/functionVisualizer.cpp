@@ -12,7 +12,7 @@ double x_2= 2;
 double y_1= -1;
 double y_2= 1;
 
-int grid_size=1;
+int grid_size=4;
 
 // update the screen with the updated parameters
 void update(void (*scaling)());
@@ -32,10 +32,7 @@ char* function_name;
 
 int cursor_position=0;
 int list_position=0;
-const int list_length = 6;
-int funktionSelector(){
-
-    menuEntry EntryList[list_length]= {
+const int list_length = 6;menuEntry EntryList[list_length]= {
                                         {"sin",sin},
                                         {"cos",cos},
                                         {"tan",tan},
@@ -43,6 +40,7 @@ int funktionSelector(){
                                         {"acos",acos},
                                         {"atan",atan},
                                       };
+int funktionSelector(){
 
     draw_menu(EntryList, list_length, cursor_position, list_position);
 
@@ -92,10 +90,15 @@ void funktionVisualizer(){
     
     // if button 2 is pressed change the zoom mode
     if(!digitalRead(BTN2) and !digitalRead(BTN2) != button_2_lastState){
-        button_2_lastState =  !digitalRead(BTN2);
         zoom_mode = (((zoom_mode+1) % 4) + 4) % 4;
+    if(zoom_mode == INOUT){logo = logo_inout;}
+    if(zoom_mode == LEFTRIGHT){logo = logo_leftright;}
+    if(zoom_mode == UPDOWN){logo = logo_updown;}
+    if(zoom_mode == GRID){logo = logo_grid;}
         draw_topBar_fktVis(function_name, logo);
+        screen.display();
     }
+    button_2_lastState =  !digitalRead(BTN2);
 
     // if the rotary encoder is turned update accordingly
     if(zoom_mode == INOUT){
@@ -133,14 +136,14 @@ void funktionVisualizer(){
     }
     else if(zoom_mode == GRID){
         logo = logo_grid;
-        if (encoderPosition < lastPosition) {
+        if (encoderPosition > lastPosition) {
             lastPosition = encoderPosition;
             if(grid_size > 1){
                 grid_size = grid_size/2;
                 update(do_nothing);
             }
         }
-        else if (encoderPosition > lastPosition) {
+        else if (encoderPosition < lastPosition) {
             lastPosition = encoderPosition;
             if(grid_size < SCREEN_WIDTH){
                 grid_size = grid_size*2;
@@ -154,9 +157,16 @@ void funktionVisualizer(){
 void update(void (*scaling)()){
     scaling();
     screen.clearDisplay();
+    draw_topBar_fktVis(function_name, logo);
     draw_coordinateSystem(x_1 ,x_2 ,y_1, y_2);
     draw_function(x_1 ,x_2 ,y_1, y_2, grid_size, function);
     draw_topBar_fktVis(function_name, logo);
+    if(zoom_mode == GRID){
+        screen.setTextSize(1);
+        screen.setCursor(90, 4);
+        screen.setTextColor(WHITE);
+        screen.println(grid_size);
+    }
     screen.display();
 }
 
